@@ -1,0 +1,123 @@
+package com.example.noteapp.feature_note.presentation.notes.components
+
+import android.icu.text.SimpleDateFormat
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.core.graphics.ColorUtils
+import com.example.noteapp.feature_note.domain.model.Note
+import java.util.*
+
+@RequiresApi(Build.VERSION_CODES.N)
+@Composable
+fun NoteItem(
+    note: Note,
+    modifier: Modifier = Modifier,
+    cornerRadius: Dp = 30.dp,
+    cutCornerSize: Dp = 0.dp,
+    onDeleteClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+    ) {
+        Canvas(modifier = Modifier.matchParentSize()) {
+            val clipPath = Path().apply {
+                lineTo(size.width - cutCornerSize.toPx(), 0f)
+                lineTo(size.width, cutCornerSize.toPx())
+                lineTo(size.width, size.height)
+                lineTo(0f, size.height)
+                close()
+            }
+
+            clipPath(clipPath) {
+                drawRoundRect(
+                    color = Color(note.color),
+                    size = size,
+                    cornerRadius = CornerRadius(cornerRadius.toPx())
+                )
+
+            }
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(19.dp)
+                .padding(end = 35.dp)
+        ) {
+            Text(
+                text = note.title,
+                style = MaterialTheme.typography.h5,
+                color = MaterialTheme.colors.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = note.content,
+                style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.onSurface,
+                maxLines = 10,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Text(
+                modifier = Modifier
+                    .align(alignment = Alignment.End)
+                    .padding(end = 5.dp),
+                text = convertTimestampToDate(note.timestamp),
+                style = MaterialTheme.typography.body2,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        IconButton(
+            onClick = onDeleteClick,
+            modifier = Modifier.align(Alignment.BottomEnd)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete note",
+                tint = MaterialTheme.colors.onSurface
+            )
+        }
+    }
+
+
+
+
+
+}
+
+@RequiresApi(Build.VERSION_CODES.N)
+fun convertTimestampToDate(timestamp: Long): String {
+    val date = Date(timestamp)
+    val dateString = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        SimpleDateFormat("dd/MM/yyyy").format(date)
+    } else {
+        TODO("VERSION.SDK_INT < N")
+    }
+    val timeString = SimpleDateFormat("HH:mm").format(date)
+    val dateTimeString = "$dateString $timeString"
+    return dateTimeString
+}
