@@ -30,5 +30,5 @@
 * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) - It is arguably the most used Dependency Injection, or DI, framework for Android. Many Android projects use Dagger to simplify building and providing dependencies across the app. It gives you the ability to create specific scopes, modules, and components, where each forms a piece of a puzzle: The dependency graph.
 
 # Note:
- > I maked this app to just for working on RoomDB with Clean Architecture.
+ > I maked this app to just for working on RoomDB, MVVM with Clean Architecture.
    and practice with jetpack compose.
