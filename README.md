@@ -2,7 +2,7 @@
 ### To do app is a simple application for storing your notes on your phone(loacal DB) and retrive it again. 
 
  ## App sammary GIF
-  <img src="https://user-images.githubusercontent.com/62241386/183112726-00a23ae9-c3f8-401c-99d2-07b2bfc72ecc.gif" width="300" height="600">&nbsp; 
+  <img src="https://user-images.githubusercontent.com/62241386/183112726-00a23ae9-c3f8-401c-99d2-07b2bfc72ecc.gif" width="300" height="450">&nbsp; 
   
       
 
