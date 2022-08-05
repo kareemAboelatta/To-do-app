@@ -4,6 +4,7 @@
 
     <style name="Theme.NoteApp" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_500</item>
+        <item name="android:background">@color/purple_500</item>
     </style>
 
 

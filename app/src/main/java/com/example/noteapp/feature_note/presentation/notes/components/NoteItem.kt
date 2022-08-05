@@ -20,6 +20,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -60,47 +61,58 @@ fun NoteItem(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(19.dp)
-                .padding(end = 35.dp)
+                .padding(15.dp)
         ) {
             Text(
                 text = note.title,
-                style = MaterialTheme.typography.h5,
-                color = MaterialTheme.colors.onSurface,
+                style = MaterialTheme.typography.h4,
+                color = Color.White,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = note.content,
                 style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.onSurface,
-                maxLines = 10,
+                color = Color.White,
+                maxLines = 5,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(5.dp))
 
-            Text(
-                modifier = Modifier
-                    .align(alignment = Alignment.End)
-                    .padding(end = 5.dp),
-                text = convertTimestampToDate(note.timestamp),
-                style = MaterialTheme.typography.body2,
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(end = 5.dp),
+                    text = convertTimestampToDate(note.timestamp),
+                    style = MaterialTheme.typography.body2,
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                IconButton(
+                    onClick = onDeleteClick,
+                    modifier = Modifier
+                        .size(40.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete note",
+                        tint = Color.White,
+                    )
+                }
+            }
+
+
         }
-        IconButton(
-            onClick = onDeleteClick,
-            modifier = Modifier.align(Alignment.BottomEnd)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Delete,
-                contentDescription = "Delete note",
-                tint = MaterialTheme.colors.onSurface
-            )
-        }
+
     }
 
 
@@ -118,6 +130,6 @@ fun convertTimestampToDate(timestamp: Long): String {
         TODO("VERSION.SDK_INT < N")
     }
     val timeString = SimpleDateFormat("HH:mm").format(date)
-    val dateTimeString = "$dateString $timeString"
+    val dateTimeString = "$dateString"
     return dateTimeString
 }

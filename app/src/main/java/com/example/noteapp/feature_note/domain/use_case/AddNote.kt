@@ -17,5 +17,7 @@ class AddNote(
             throw InvalidNoteException("The content of the note can't be empty.")
         }
         repository.insertNote(note)
+
+
     }
 }

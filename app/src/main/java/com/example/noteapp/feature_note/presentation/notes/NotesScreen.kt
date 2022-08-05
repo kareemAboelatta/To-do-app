@@ -24,19 +24,25 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.noteapp.R
+import com.example.noteapp.feature_note.domain.model.Note
 import com.example.noteapp.feature_note.presentation.notes.components.NoteItem
 import com.example.noteapp.feature_note.presentation.notes.components.OrderSection
 import com.example.noteapp.feature_note.presentation.util.Screen
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun NotesScreen(
@@ -68,17 +74,21 @@ fun NotesScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(color = colorResource(id = R.color.purple_500))
                 .padding(2.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "This is your notes",
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.h4,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
                 )
                 IconButton(
                     onClick = {
@@ -87,7 +97,9 @@ fun NotesScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Sort,
-                        contentDescription = "Sort"
+                        contentDescription = "Sort",
+                        tint = Color.White,
+                        modifier = Modifier.size(30.dp)
                     )
                 }
             }
@@ -98,18 +110,10 @@ fun NotesScreen(
 
 
 
-
-
-
-
-
-
-
-
             AnimatedVisibility(
                 visible = state.isOrderSectionVisible,
-                enter = fadeIn() + slideInVertically(),
-                exit = fadeOut() + slideOutVertically()
+                enter = fadeIn() + slideInHorizontally(),
+                exit = fadeOut() + slideOutHorizontally()
             ) {
                 OrderSection(
                     modifier = Modifier
@@ -122,9 +126,69 @@ fun NotesScreen(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-                .padding(16.dp)
+
+
+            Column(modifier = Modifier.fillMaxSize()) {
+
+                LazyVerticalGrid(
+                    cells = GridCells.Fixed(2)
+                    , content ={
+                        items(state.notes){ note->
+                            Box(
+                                modifier = Modifier
+                                    .padding(5.dp),
+                                Alignment.Center,
+                                ){
+                                NoteItem(
+                                    note = note,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            navController.navigate(
+                                                Screen.AddEditNoteScreen.route +
+                                                        "?noteId=${note.id}&noteColor=${note.color}"
+                                            )
+                                        },
+                                    onDeleteClick = {
+                                        viewModel.onEvent(NotesEvent.DeleteNote(note))
+                                        scope.launch {
+                                            val result = scaffoldState.snackbarHostState.showSnackbar(
+                                                message = "Note deleted",
+                                                actionLabel = "Undo"
+                                            )
+                                            if(result == SnackbarResult.ActionPerformed) {
+                                                viewModel.onEvent(NotesEvent.RestoreNote)
+                                            }
+                                        }
+                                    }
+                                )
+
+                            }
+
+                        }
+                    }
+                )
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
                 ) {
                 items(state.notes) { note ->
                     NoteItem(
@@ -152,7 +216,7 @@ fun NotesScreen(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-            }
+            }*/
         }
     }
 
