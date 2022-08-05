@@ -1,12 +1,9 @@
 # To-do-app ( Jetpack Compose )
 ### To do app is a simple application for storing your notes on your phone(loacal DB) and retrive it again. 
 
- ## Screenshots
-  <img src="https://user-images.githubusercontent.com/62241386/181088806-b77d0859-3a86-41e9-ae66-f928455d9c0e.PNG" width="200">&nbsp; 
+ ## App sammary GIF
+  <img src="https://user-images.githubusercontent.com/62241386/183112726-00a23ae9-c3f8-401c-99d2-07b2bfc72ecc.gif" width="300" height="600">&nbsp; 
   
- <img src="https://user-images.githubusercontent.com/62241386/181088810-4b26fa87-8c16-4fb7-90e7-2e52839d0357.PNG" width="200">; 
-    
- <img src="https://user-images.githubusercontent.com/62241386/181088813-ee730404-7792-49dc-8384-a1d09d732601.PNG" width="200">&nbsp; 
       
 
 ## Built With
