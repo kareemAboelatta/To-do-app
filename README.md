@@ -30,5 +30,5 @@
 
 
 # Note:
- > I maked this app to just for working on RoomDB, MVVM with Clean Architecture.
+ > I made this app to just for working on RoomDB, MVVM with Clean Architecture.
    and practice with jetpack compose.
