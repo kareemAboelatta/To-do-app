@@ -1,8 +1,8 @@
 package com.example.noteapp.feature_note.domain.model
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.noteapp.ui.theme.*
 
 @Entity
 data class Note(
@@ -14,11 +14,11 @@ data class Note(
 ){
     companion object {
         val noteColors = listOf(
-            Blue,
-            YellowDark,
-            Violet,
-            Green,
-            RedPink
+            Color.Blue,
+            Color.Cyan,
+            Color.Green,
+            Color.LightGray,
+            Color.Magenta
         )
     }
 }
