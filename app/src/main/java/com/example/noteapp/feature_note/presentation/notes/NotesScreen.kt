@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.noteapp.R
+import com.example.noteapp.common.util.TagsForTest
 import com.example.noteapp.feature_note.domain.model.Note
 import com.example.noteapp.feature_note.presentation.notes.components.NoteItem
 import com.example.noteapp.feature_note.presentation.notes.components.OrderSection
@@ -74,7 +76,7 @@ fun NotesScreen(
                 containerColor = MaterialTheme.colorScheme.primary
 
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
         },
         snackbarHost = {
@@ -84,7 +86,7 @@ fun NotesScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = colorResource(id = R.color.purple_500))
+                .background(MaterialTheme.colorScheme.background)
                 .padding(it)
         ) {
             Row(
@@ -96,8 +98,7 @@ fun NotesScreen(
             ) {
                 Text(
                     text = "This is your notes",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = Color.White,
+                    style = MaterialTheme.typography.headlineMedium.copy(color = MaterialTheme.colorScheme.primary),
                     fontWeight = FontWeight.Bold
                 )
                 IconButton(
@@ -108,17 +109,11 @@ fun NotesScreen(
                     Icon(
                         imageVector = Icons.Default.Menu,
                         contentDescription = "Sort",
-                        tint = Color.White,
+                        tint= MaterialTheme.colorScheme.primary ,
                         modifier = Modifier.size(30.dp)
                     )
                 }
             }
-
-
-
-
-
-
 
             AnimatedVisibility(
                 visible = state.isOrderSectionVisible,
@@ -128,7 +123,8 @@ fun NotesScreen(
                 OrderSection(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                        .padding(vertical = 16.dp)
+                        .testTag(TagsForTest.ORDER_SECTION),
                     noteOrder = state.noteOrder,
                     onOrderChange = {
                         viewModel.onEvent(NotesEvent.Order(it))

@@ -1,4 +1,4 @@
-package com.example.noteapp.di
+package com.example.noteapp.common.di
 
 import android.app.Application
 import androidx.room.Room
