@@ -121,7 +121,6 @@ fun NoteItem(
 
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
 fun convertTimestampToDate(timestamp: Long): String {
     val date = Date(timestamp)
     val dateString = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

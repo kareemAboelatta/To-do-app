@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,7 +33,7 @@ fun OrderSection(
     Column(
         modifier = modifier
     ) {
-        Row(
+       /* Row(
             modifier = Modifier.fillMaxWidth()
         ) {
             Box(
@@ -98,7 +99,9 @@ fun OrderSection(
                 Text(text = "Color")
             }
 
-        }
+        }*/
+
+        OrderTypeRow(noteOrder =noteOrder , onOrderChange = onOrderChange )
 
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -123,4 +126,80 @@ fun OrderSection(
         }
     }
 }
+
+
+@Composable
+private fun OrderTypeRow(
+    noteOrder: NoteOrder,
+    onOrderChange: (NoteOrder) -> Unit
+) {
+    Row(modifier = Modifier.fillMaxWidth()) {
+
+        OrderOption(
+                text = "Title",
+                isSelected = noteOrder is NoteOrder.Title,
+                onSelect = { onOrderChange(NoteOrder.Title(noteOrder.orderType)) },
+            modifier = Modifier.weight(1f)
+        )
+
+        OrderOption(
+                text = "Date",
+                isSelected = noteOrder is NoteOrder.Date,
+                onSelect = { onOrderChange(NoteOrder.Date(noteOrder.orderType)) },
+            modifier = Modifier.weight(1f)
+        )
+        OrderOption(
+                text = "Color",
+                isSelected = noteOrder is NoteOrder.Color,
+                onSelect = { onOrderChange(NoteOrder.Color(noteOrder.orderType)) },
+            modifier = Modifier.weight(1f)
+
+
+        )
+
+    }
+}
+
+
+@Composable
+private fun OrderOption(
+    text: String,
+    isSelected: Boolean,
+    onSelect: () -> Unit,
+    modifier: Modifier
+
+) {
+    BoxOption(
+        text = text,
+        isSelected = isSelected,
+        onSelect = onSelect,
+        modifier= modifier
+    )
+}
+
+
+@Composable
+private fun BoxOption(
+    text: String,
+    isSelected: Boolean,
+    onSelect: () -> Unit,
+    modifier: Modifier
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier =modifier.then(
+            Modifier
+                .padding(10.dp)
+                .clickable(onClick = onSelect)
+                .clip(RoundedCornerShape(10.dp))
+                .background(if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray)
+                .padding(15.dp))
+
+    ) {
+        Text(text = text, color = if (isSelected) Color.White else Color.Black)
+    }
+}
+
+
+
 
